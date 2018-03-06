@@ -12,8 +12,9 @@ class BasicCest
         $I->sendGET('/status');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseMatchesJsonType([
-            'status' => 'string:=ok',
+
+        $I->seeResponseContainsJson([
+            'status' => 'ok',
         ]);
     }
 }
