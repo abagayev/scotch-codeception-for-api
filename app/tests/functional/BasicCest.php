@@ -9,13 +9,13 @@ class BasicCest
      */
     public function testStatus(\FunctionalTester $I)
     {
+        $I->amGoingTo('check status');
         $I->sendGET('/status');
+
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-
         $I->seeResponseContainsJson([
             'status' => 'ok',
         ]);
     }
 }
-

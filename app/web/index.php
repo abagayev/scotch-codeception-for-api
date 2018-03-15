@@ -5,12 +5,18 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $app = new Silex\Application();
 $faker = Faker\Factory::create();
 
-// get status of application
+
+/**
+ * Get status of application (just return ok)
+ */
 $app->get('/status', function () use ($app) {
     return $app->json(['status' => 'ok']);
 });
 
-// get list of transactions
+
+/**
+ * Create the list of fake transactions
+ */
 $app->get('/transactions', function () use ($app, $faker) {
     $data = [];
 
@@ -26,20 +32,38 @@ $app->get('/transactions', function () use ($app, $faker) {
     return $app->json($data);
 });
 
-// get list of users
+
+/**
+ * Generate list of fake users
+ */
 $app->get('/users', function () use ($app, $faker) {
     $data = [];
 
     for ($i = 0; $i < 5; ++$i) {
         $data[] = [
-            'user' => $faker->email,
+            'id' => $faker->randomNumber,
             'name' => $faker->name,
-            'last_login' => $faker->date,
-            'user_agent' => $faker->userAgent
         ];
     }
 
     return $app->json($data);
 });
+
+
+/**
+ * Generate fake user profile
+ */
+$app->get('/users/{id}', function ($id) use ($app, $faker) {
+    $data = [
+        'id' => (int)$id,
+        'name' => $faker->name,
+        'email' => $faker->email,
+        'last_login' => $faker->date,
+        'user_agent' => $faker->userAgent
+    ];
+
+    return $app->json($data);
+});
+
 
 $app->run();
